@@ -12,3 +12,8 @@
   https://www.typescriptlang.org/docs/handbook/declaration-files/introduction.html
 */
 // declare module '*';
+
+interface RegisterCredentials {
+  username: string;
+  password: string
+}

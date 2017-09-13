@@ -1,0 +1,30 @@
+<ion-card>
+    <ion-toolbar>
+        <ion-buttons left>
+            <button ion-button solid (click)="switchAnswerVisibility()" left color="secondary">
+                {{activeAnswerButtonText}}
+            </button>
+        </ion-buttons>
+        <ion-buttons right>
+            <button ion-button color="danger" solid right>
+                Deletar
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+    <ion-card-content>
+        {{question}}
+        <div *ngIf="answerVisibleQ" class="answer">
+            {{answer}}
+        </div>
+        <hr>
+        Tags:
+        <ion-row>
+            <ion-col>
+                <span *ngFor="let number of [1,2,3,4,5,6]; last as isLast">
+                    <bau-tag text="lorem"></bau-tag>
+                    <span *ngIf="!isLast"> , </span>
+                </span>
+            </ion-col>
+        </ion-row>
+    </ion-card-content>
+</ion-card>

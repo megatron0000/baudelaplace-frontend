@@ -1,0 +1,21 @@
+bau-card {
+    .answer {
+        color: map-get($colors, secondary);
+        font-style: italic;
+        font-weight: bold;
+        margin-top: 10px
+    }
+}
+
+ion-badge {
+    margin-bottom: 1px;
+}
+
+ion-badge > div {
+    border-radius: inherit;
+    background: white;
+    color: black;
+    font-weight: 400;
+    margin: -2px -7px;
+    padding: 3px 4px;
+}
