@@ -1,4 +1,4 @@
-# 1.0.6 (**not yet launched**)
+# 1.0.6 (22/09/2017)
 
 ## Development facilities
 - Project gains `typedoc` regulated by `typedoc.json` for generating docs
