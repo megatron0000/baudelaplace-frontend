@@ -1,6 +1,6 @@
-import { BauTag } from './../components/bau-tag/bau-tag'
-import { BauCard } from './../components/bau-card/bau-card'
-import { UserFactory } from '../providers/user-factory'
+import { CardsService } from './../providers/cards-service'
+import { BauTagComponent } from './../components/bau-tag/bau-tag'
+import { BauCardComponent } from './../components/bau-card/bau-card'
 import { ApiXHRBackend } from '../providers/api-xhr-backend'
 import { HttpModule, XHRBackend } from '@angular/http'
 import { HomePage } from '../pages/home/home'
@@ -14,6 +14,8 @@ import { MyApp } from './app.component'
 import { HelloIonicPage } from '../pages/hello-ionic/hello-ionic'
 import { ItemDetailsPage } from '../pages/item-details/item-details'
 import { ListPage } from '../pages/list/list'
+import { CreateCardModal } from '../pages/create-card-modal/create-card-modal'
+
 
 @NgModule({
   declarations: [
@@ -24,8 +26,9 @@ import { ListPage } from '../pages/list/list'
     LoginPage,
     RegisterPage,
     HomePage,
-    BauCard,
-    BauTag
+    BauCardComponent,
+    BauTagComponent,
+    CreateCardModal
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -40,13 +43,14 @@ import { ListPage } from '../pages/list/list'
     ListPage,
     LoginPage,
     RegisterPage,
-    HomePage
+    HomePage,
+    CreateCardModal
   ],
   providers: [
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     { provide: XHRBackend, useClass: ApiXHRBackend },
     AuthService,
-    UserFactory
+    CardsService
   ]
 })
 export class AppModule { }

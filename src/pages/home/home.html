@@ -5,6 +5,10 @@
         </ion-title>
 
         <ion-buttons end>
+            <button icon-start (click)="openAddCardModal()" ion-button title="Adicionar carta">
+                <ion-icon name="add-circle"></ion-icon>
+                Criar
+            </button>
             <button ion-button title="você">
                 <ion-chip color="primary">
                     <ion-icon name="happy" color="dark"></ion-icon>
@@ -21,11 +25,8 @@
 <ion-content class="home" padding>
     <ion-grid>
         <ion-row class="row">
-            <ion-col col-12 col-md-6 col-lg-4 align-self-stretch>
-                <bau-card question="Quais os produtos da reação entre água e anidrido carbônico ?" answer="Não sei"></bau-card>
-            </ion-col>
-            <ion-col col-12 col-md-6 col-lg-4 align-self-stretch>
-                <bau-card question="Quanto vale pi ?" answer="Uns 3.14"></bau-card>
+            <ion-col col-12 col-md-6 col-lg-4 align-self-stretch *ngFor="let card of cards">
+                <bau-card [cardContent]="card" (onDeleted)="onCardDeleted($event)"></bau-card>
             </ion-col>
         </ion-row>
     </ion-grid>

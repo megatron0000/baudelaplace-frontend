@@ -7,26 +7,23 @@
 <ion-content class="login-content">
     <div class="login-box">
 
-        <form (ngSubmit)="register()" #registerForm="ngForm">
+        <form (ngSubmit)="register()" [formGroup]="registerCredentials">
             <ion-row>
                 <ion-col>
                     <ion-list inset>
-
                         <ion-item>
-                            <ion-input type="text" placeholder="Nome de usuário" name="username" [(ngModel)]="registerCredentials.username" required></ion-input>
+                            <ion-input type="text" placeholder="Nome de usuário" formControlName="username"></ion-input>
                         </ion-item>
-
                         <ion-item>
-                            <ion-input type="password" placeholder="Senha" name="password" [(ngModel)]="registerCredentials.password" required></ion-input>
+                            <ion-input type="password" placeholder="Senha" formControlName="password"></ion-input>
                         </ion-item>
-
                     </ion-list>
                 </ion-col>
             </ion-row>
 
             <ion-row>
                 <ion-col class="signup-col">
-                    <button ion-button class="submit-btn" full type="submit" [disabled]="!registerForm.form.valid">Criar</button>
+                    <button ion-button class="submit-btn" full type="submit" [disabled]="!registerCredentials.valid">Criar</button>
                 </ion-col>
             </ion-row>
 

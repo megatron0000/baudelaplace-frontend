@@ -6,15 +6,15 @@
             </button>
         </ion-buttons>
         <ion-buttons right>
-            <button ion-button color="danger" solid right>
+            <button (click)="delete()" ion-button color="danger" solid right>
                 Deletar
             </button>
         </ion-buttons>
     </ion-toolbar>
     <ion-card-content>
-        {{question}}
+        {{cardContent.question}}
         <div *ngIf="answerVisibleQ" class="answer">
-            {{answer}}
+            {{cardContent.answer}}
         </div>
         <hr>
         Tags:

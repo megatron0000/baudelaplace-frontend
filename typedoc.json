@@ -1,0 +1,20 @@
+{
+    "mode": "file",
+    "module": "commonjs",
+    "theme": "default",
+    "out": "docs",
+    "target": "ES5",
+    "files": "*.ts",
+    "moduleResolution": "node",
+    "includeDeclarations": "true",
+    "ignoreCompilerErrors": "true",
+    "experimentalDecorators": "true",
+    "emitDecoratorMetadata": "true",
+    "excludeExternals": "true",
+    "preserveConstEnums": "true",
+    "stripInternal": "true",
+    "suppressExcessPropertyErrors": "true",
+    "suppressImplicitAnyIndexErrors": "true",
+    "includes": "src/",
+    "media": "uml/"
+}

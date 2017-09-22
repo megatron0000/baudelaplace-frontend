@@ -1,5 +1,7 @@
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
+import { RegisterCredentials, AuthError, GeneralError } from 'baudelaplace-bridge'
 import { Component } from '@angular/core'
-import { NavController, AlertController} from 'ionic-angular'
+import { NavController, AlertController } from 'ionic-angular'
 import { AuthService } from '../../providers/auth-service'
 
 @Component({
@@ -8,21 +10,40 @@ import { AuthService } from '../../providers/auth-service'
 })
 export class RegisterPage {
     createSuccess = false
-    registerCredentials: RegisterCredentials = { username: '', password: '' }
+    registerCredentials: FormGroup
 
-    constructor(private nav: NavController, private auth: AuthService, private alertCtrl: AlertController) { }
+    constructor(
+        private nav: NavController,
+        private auth: AuthService,
+        private alertCtrl: AlertController,
+        private formBuilder: FormBuilder
+    ) {
+        this.registerCredentials = this.formBuilder.group({
+            username: new FormControl('', Validators.required),
+            password: new FormControl('', Validators.required)
+        })
+    }
 
     public register() {
-        this.auth.register(this.registerCredentials).subscribe(user => {
+        this.auth.register(this.registerCredentials.value as RegisterCredentials).subscribe(user => {
             if (user) {
                 this.createSuccess = true
-                this.showPopup("Sucesso", "Conta criada.")
+                this.showPopup('Sucesso', 'Conta criada.')
             } else {
-                this.showPopup("Erro", "Problema na criação da conta")
+                this.showPopup('Erro', 'Problema na criação da conta')
             }
         },
             error => {
-                this.showPopup("Erro", error['message'] || 'Falha na comunicação com o servidor')
+                // error is either GeneralError or AuthError
+                /**
+                 * @TODO Translate GeneralError messages in backend
+                 */
+                if ((error as GeneralError).status) {
+                    console.log(error)
+                    this.showPopup('Erro', 'Falha na comunicação com o servidor')
+                    return
+                }
+                this.showPopup('Erro', (error as AuthError).message)
             })
     }
 

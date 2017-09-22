@@ -1,0 +1,27 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>
+            Criar carta
+        </ion-title>
+        <ion-buttons end>
+            <button ion-button (click)="close()">Fechar</button>
+        </ion-buttons>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <form [formGroup]="cardContent" (ngSubmit)="sendForm()">
+        <ion-item>
+            <ion-label>Pergunta</ion-label>
+            <ion-textarea formControlName="question"></ion-textarea>
+        </ion-item>
+        <ion-item>
+            <ion-label>Resposta</ion-label>
+            <ion-textarea formControlName="answer"></ion-textarea>
+        </ion-item>
+        <button ion-button icon-start type="submit" [disabled]="!cardContent.valid">
+            <ion-icon name="checkmark"></ion-icon>
+            Criar
+        </button>
+    </form>
+</ion-content>

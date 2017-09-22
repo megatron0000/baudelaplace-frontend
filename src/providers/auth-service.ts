@@ -1,6 +1,4 @@
-import { hasOwnProperty } from 'tslint/lib/utils'
-import { AuthError } from 'baudelaplace-bridge/build/auth-error'
-import { User } from 'baudelaplace-bridge/build/user'
+import { AuthError, User, RegisterCredentials, GeneralError, ServerDownError } from 'baudelaplace-bridge'
 import { Observer } from 'rxjs/Rx'
 import { Http } from '@angular/http'
 import { Injectable } from '@angular/core'
@@ -17,7 +15,8 @@ export class AuthService {
         this.http = http
         this.currentUser = {
             username: 'Placeholder-username',
-            admin: false
+            admin: false,
+            _id: null
         }
     }
 
@@ -29,12 +28,13 @@ export class AuthService {
             this.http.post('/users/login', {
                 username: credentials.username,
                 password: credentials.password
-            }).subscribe(
+            }, { withCredentials: true }).subscribe(
                 response => {
-                    let responseJson = <User | AuthError>(response.json())
+                    let responseJson = response.json() as User | AuthError | GeneralError
 
                     // If login was an error
-                    if ((responseJson as AuthError).name) {
+                    if ((responseJson as AuthError | GeneralError).name) {
+                        console.log('Received error as success. Must be corrected on backend')
                         observer.error(responseJson)
                         observer.complete()
                         return
@@ -45,7 +45,11 @@ export class AuthService {
                     observer.complete()
 
                 }, error => {
-                    observer.error(error)
+                    if (error.status === 0) {
+                        observer.error(ServerDownError)
+                    } else {
+                        observer.error(error.json())
+                    }
                     observer.complete()
                 })
         })
@@ -53,7 +57,7 @@ export class AuthService {
     }
 
     public register(credentials: RegisterCredentials): Observable<User> {
-        if (credentials.username === null || credentials.password === null) {
+        if (!credentials.username || !credentials.password) {
             return Observable.throw('Por favor, insira suas credenciais.')
         }
         // At this point store the credentials to your backend!
@@ -61,7 +65,10 @@ export class AuthService {
             this.http.post('/users/register', {
                 username: credentials.username,
                 password: credentials.password
-            }).subscribe(response => {
+                /**
+                 * withCredentials to send cookies along (needed for session)
+                 */
+            }, { withCredentials: true }).subscribe(response => {
                 let responseJson = response.json() as (User | AuthError)
                 if ((responseJson as AuthError).name) {
                     observer.error(responseJson)
@@ -72,7 +79,11 @@ export class AuthService {
                 observer.next(this.currentUser)
                 observer.complete()
             }, error => {
-                observer.error(error)
+                if (error.status === 0) {
+                    observer.error(ServerDownError)
+                } else {
+                    observer.error(error.json())
+                }
                 observer.complete()
             })
         })
@@ -83,6 +94,9 @@ export class AuthService {
         return this.currentUser
     }
 
+    /**
+     * @TODO Actually do the logout on backend
+     */
     public logout() {
         return Observable.create(observer => {
             this.currentUser = null
