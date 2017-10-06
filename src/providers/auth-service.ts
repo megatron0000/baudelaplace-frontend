@@ -62,13 +62,7 @@ export class AuthService {
         }
         // At this point store the credentials to your backend!
         return Observable.create((observer: Observer<User>) => {
-            this.http.post('/users/register', {
-                username: credentials.username,
-                password: credentials.password
-                /**
-                 * withCredentials to send cookies along (needed for session)
-                 */
-            }, { withCredentials: true }).subscribe(response => {
+            this.http.post('/users/register', credentials, { withCredentials: true }).subscribe(response => {
                 let responseJson = response.json() as (User | AuthError)
                 if ((responseJson as AuthError).name) {
                     observer.error(responseJson)

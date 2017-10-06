@@ -1,3 +1,7 @@
+import { EnvVarFactory } from './../variables/env-var/env-var-factory'
+import { EnvVariable } from './../variables/env-var/env-var.token'
+import { DefaultAlertService } from './../providers/default-alert-service'
+import { StyleService } from '../providers/style-service'
 import { CardsService } from './../providers/cards-service'
 import { BauTagComponent } from './../components/bau-tag/bau-tag'
 import { BauCardComponent } from './../components/bau-card/bau-card'
@@ -15,42 +19,58 @@ import { HelloIonicPage } from '../pages/hello-ionic/hello-ionic'
 import { ItemDetailsPage } from '../pages/item-details/item-details'
 import { ListPage } from '../pages/list/list'
 import { CreateCardModal } from '../pages/create-card-modal/create-card-modal'
-
+import { CreateTagPopover } from '../pages/create-tag-popover/create-tag-popover'
+import { RecaptchaModule, RecaptchaLoaderService } from 'ng2-recaptcha'
+import { ListPickModule } from '../modules/list-pick/list-pick.module'
+import { UtilsModule } from '../modules/utils'
+import { InAppBrowser } from '@ionic-native/in-app-browser'
+import { PtRecaptchaFactory } from '../providers/pt-recaptcha-factory'
 
 @NgModule({
-  declarations: [
-    MyApp,
-    HelloIonicPage,
-    ItemDetailsPage,
-    ListPage,
-    LoginPage,
-    RegisterPage,
-    HomePage,
-    BauCardComponent,
-    BauTagComponent,
-    CreateCardModal
-  ],
-  imports: [
-    IonicModule.forRoot(MyApp),
-    BrowserModule,
-    HttpModule
-  ],
-  bootstrap: [IonicApp],
-  entryComponents: [
-    MyApp,
-    HelloIonicPage,
-    ItemDetailsPage,
-    ListPage,
-    LoginPage,
-    RegisterPage,
-    HomePage,
-    CreateCardModal
-  ],
-  providers: [
-    { provide: ErrorHandler, useClass: IonicErrorHandler },
-    { provide: XHRBackend, useClass: ApiXHRBackend },
-    AuthService,
-    CardsService
-  ]
+    declarations: [
+        MyApp,
+        HelloIonicPage,
+        ItemDetailsPage,
+        ListPage,
+        LoginPage,
+        RegisterPage,
+        HomePage,
+        BauCardComponent,
+        BauTagComponent,
+        CreateCardModal,
+        CreateTagPopover
+    ],
+    imports: [
+        IonicModule.forRoot(MyApp),
+        BrowserModule,
+        HttpModule,
+        RecaptchaModule.forRoot(),
+        ListPickModule,
+        UtilsModule
+    ],
+    bootstrap: [IonicApp],
+    entryComponents: [
+        MyApp,
+        HelloIonicPage,
+        ItemDetailsPage,
+        ListPage,
+        LoginPage,
+        RegisterPage,
+        HomePage,
+        CreateCardModal,
+        BauTagComponent,
+        CreateTagPopover
+    ],
+    providers: [
+        { provide: ErrorHandler, useClass: IonicErrorHandler },
+        { provide: XHRBackend, useClass: ApiXHRBackend },
+        { provide: RecaptchaLoaderService, useFactory: PtRecaptchaFactory },
+        { provide: EnvVariable, useFactory: EnvVarFactory },
+        AuthService,
+        CardsService,
+        StyleService,
+        DefaultAlertService,
+        InAppBrowser
+    ]
 })
 export class AppModule { }

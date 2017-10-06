@@ -1,9 +1,10 @@
+import { DefaultAlertService } from './../../providers/default-alert-service'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { AuthError, GeneralError, RegisterCredentials } from 'baudelaplace-bridge'
 import { HomePage } from '../home/home'
 import { RegisterPage } from '../register/register'
 import { Component } from '@angular/core'
-import { NavController, AlertController, LoadingController, Loading } from 'ionic-angular'
+import { NavController, LoadingController, Loading } from 'ionic-angular'
 import { AuthService } from '../../providers/auth-service'
 
 @Component({
@@ -17,7 +18,7 @@ export class LoginPage {
   constructor(
     private nav: NavController,
     private auth: AuthService,
-    private alertCtrl: AlertController,
+    private alertSrv: DefaultAlertService,
     private loadingCtrl: LoadingController,
     private formBuilder: FormBuilder
   ) {
@@ -37,7 +38,8 @@ export class LoginPage {
       if (user) {
         this.nav.setRoot(HomePage)
       } else {
-        this.showError('Acesso negado.')
+        this.loading.dismiss()
+        this.alertSrv.showError('Acesso negado.')
       }
     },
       error => {
@@ -47,11 +49,14 @@ export class LoginPage {
          */
         if ((error as GeneralError).status) {
           console.log(error)
-          this.showError('Falha na comunicação com o servidor')
+          this.loading.dismiss()
+          this.alertSrv.showError()
           return
         }
-        this.showError((error as AuthError).message)
+        this.loading.dismiss()
+        this.alertSrv.showError((error as AuthError).message)
       })
+      this.registerCredentials.patchValue({ password: '' })
   }
 
   showLoading() {
@@ -62,14 +67,4 @@ export class LoginPage {
     this.loading.present()
   }
 
-  showError(text) {
-    this.loading.dismiss()
-
-    let alert = this.alertCtrl.create({
-      title: 'Falha',
-      subTitle: text,
-      buttons: ['OK']
-    })
-    alert.present()
-  }
 }

@@ -1,6 +1,13 @@
 page-create-card-modal {
-    form button {
-        margin-top: 40px !important;
-        margin-left: 16px !important; // Imitates spacing of ion-item
+    form {
+        button {
+            margin-top: 40px !important;
+        }
+        ion-item.separate-from-label div.input-wrapper {
+            flex-wrap: wrap;
+            div[item-content] {
+                width: 100%;
+            }
+        }
     }
 }

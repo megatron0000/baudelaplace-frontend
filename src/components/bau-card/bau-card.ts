@@ -2,6 +2,7 @@ import { CardsService } from '../../providers/cards-service'
 import { AlertController } from 'ionic-angular'
 import { BauCard, GeneralError } from 'baudelaplace-bridge'
 import { Component, EventEmitter, Input, Output } from '@angular/core'
+import { DefaultAlertService } from '../../providers/default-alert-service'
 
 @Component({
     selector: 'bau-card',
@@ -15,7 +16,11 @@ export class BauCardComponent {
     answerButtonTexts: { visible: string; hidden: string }
     activeAnswerButtonText: string
 
-    constructor(private alertCtrl: AlertController, private cardsServ: CardsService) {
+    constructor(
+        private alertCtrl: AlertController,
+        private defaultAlert: DefaultAlertService,
+        private cardsServ: CardsService
+    ) {
         this.answerVisibleQ = false
         this.answerButtonTexts = {
             visible: 'Ocultar resposta',
@@ -42,11 +47,7 @@ export class BauCardComponent {
                     this.cardsServ.deleteCard(this.cardContent).then(successMessage => {
                         this.onDeleted.emit(this.cardContent)
                     }).catch(error => {
-                        /**
-                         * @TODO Stop repeating showError method in lots of files.
-                         * Instead, create a service for errors
-                         */
-                        this.showError((error as GeneralError).message)
+                        this.defaultAlert.showError((error as GeneralError).message)
                         console.log(error)
                     })
                 }
@@ -54,14 +55,6 @@ export class BauCardComponent {
                 text: 'Não deletar',
                 role: 'não deletar'
             }]
-        }).present()
-    }
-
-    public showError(text: string) {
-        this.alertCtrl.create({
-            title: 'Falha',
-            subTitle: text,
-            buttons: ['OK']
         }).present()
     }
 

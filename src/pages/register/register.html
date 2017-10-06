@@ -7,7 +7,7 @@
 <ion-content class="login-content">
     <div class="login-box">
 
-        <form (ngSubmit)="register()" [formGroup]="registerCredentials">
+        <form (ngSubmit)="captchaRef.execute()" [formGroup]="registerCredentials">
             <ion-row>
                 <ion-col>
                     <ion-list inset>
@@ -23,6 +23,7 @@
 
             <ion-row>
                 <ion-col class="signup-col">
+                    <recaptcha #captchaRef="reCaptcha" [siteKey]="recaptchaKey" size="invisible" (resolved)="$event && register($event)"></recaptcha>
                     <button ion-button class="submit-btn" full type="submit" [disabled]="!registerCredentials.valid">Criar</button>
                 </ion-col>
             </ion-row>

@@ -1,5 +1,5 @@
 import { SuccessMessage, ServerDownError } from 'baudelaplace-bridge'
-import { BauCard, ServerMessage } from 'baudelaplace-bridge'
+import { BauCard, BauTag } from 'baudelaplace-bridge'
 import { Http } from '@angular/http'
 import { Injectable } from '@angular/core'
 
@@ -30,15 +30,35 @@ export class CardsService {
         })
     }
 
-    public createCard(card: BauCard): Promise<ServerMessage> {
+    public getTags(): Promise<BauTag[]> {
+        return this.http.get('/bau-anki/api/tags', { withCredentials: true }).toPromise().then(response => {
+            return response.json() as BauTag[]
+        }).catch(error => {
+            if (error.status === 0) {
+                return Promise.reject(ServerDownError)
+            } else {
+                return Promise.reject(error.json())
+            }
+        })
+    }
+
+    public createCard(card: BauCard): Promise<BauCard> {
         return this.http.post('/bau-anki/api/cards', card, { withCredentials: true })
-            .toPromise().then(response => response.json() as typeof SuccessMessage)
+            .toPromise().then(response => response.json() as BauCard)
             .catch(error => {
                 if (error.status === 0) {
                     return Promise.reject(ServerDownError)
                 } else {
                     return Promise.reject(error.json())
                 }
+            })
+    }
+
+    public createTag(tag: BauTag): Promise<BauTag> {
+        return this.http.post('/bau-anki/api/tags', tag, { withCredentials: true })
+            .toPromise().then(response => response.json() as BauTag)
+            .catch(error => {
+                return error.status === 0 ? Promise.reject(ServerDownError) : Promise.reject(error.json())
             })
     }
 

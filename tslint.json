@@ -2,7 +2,6 @@
     "rules": {
         "no-unused-expression": true,
         "no-duplicate-variable": true,
-        "no-duplicate-key": true,
         "no-unused-variable": true,
         "curly": true,
         "semicolon": [
@@ -21,7 +20,6 @@
             "spaces"
         ],
         "label-position": true,
-        "label-undefined": true,
         "max-line-length": [
             true,
             140
@@ -46,7 +44,6 @@
         "no-string-literal": false,
         "no-switch-case-fall-through": true,
         "no-trailing-whitespace": true,
-        "no-unreachable": true,
         "no-use-before-declare": true,
         "no-var-keyword": true,
         "object-literal-sort-keys": false,

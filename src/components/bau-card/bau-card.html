@@ -20,10 +20,10 @@
         Tags:
         <ion-row>
             <ion-col>
-                <span *ngFor="let number of [1,2,3,4,5,6]; last as isLast">
-                    <bau-tag text="lorem"></bau-tag>
+                <ng-container *ngFor="let tag of cardContent.tags; last as isLast">
+                    <bau-tag [tagContent]="tag"></bau-tag>
                     <span *ngIf="!isLast"> , </span>
-                </span>
+                </ng-container>
             </ion-col>
         </ion-row>
     </ion-card-content>

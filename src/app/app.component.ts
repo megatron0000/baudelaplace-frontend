@@ -1,5 +1,4 @@
 import { HomePage } from './../pages/home/home'
-import { LoginPage } from '../pages/login/login'
 import { Component, ViewChild } from '@angular/core'
 
 import { Platform, MenuController, Nav } from 'ionic-angular'

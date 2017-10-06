@@ -1,0 +1,15 @@
+<div class="selected-elements">
+    <span class="info-text">{{selectionText}}</span>
+    <div class="selection-collection">
+        <item-pick *ngFor="let elem of selectedList" (onClick)="selectedClick($event)" [item]="elem"></item-pick>
+    </div>
+</div>
+<ion-searchbar [(ngModel)]="filterText" mode="ios" placeholder="{{searchPlaceholder}}"></ion-searchbar>
+<div class="available-elements">
+    <span class="info-text">{{availableText}}</span>
+    <div class="available-collection">
+        <ng-container *ngFor="let elem of sourceList | search:filterKeys:filterText:preTransform">
+            <item-pick *ngIf="selectedList.indexOf(elem) === -1" (onClick)="sourceClick($event)" [item]="elem"></item-pick>
+        </ng-container>
+    </div>
+</div>

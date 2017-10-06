@@ -4,6 +4,10 @@
             Criar carta
         </ion-title>
         <ion-buttons end>
+            <button (click)="openCreateTagPopover()" ion-button icon-start>
+                <ion-icon name="add"></ion-icon>
+                Tag
+            </button>
             <button ion-button (click)="close()">Fechar</button>
         </ion-buttons>
     </ion-navbar>
@@ -18,6 +22,10 @@
         <ion-item>
             <ion-label>Resposta</ion-label>
             <ion-textarea formControlName="answer"></ion-textarea>
+        </ion-item>
+        <ion-item class="separate-from-label item-input">
+            <ion-label>Tags</ion-label>
+            <list-pick formControlName="tags" [filterKeys]="'text'" [sourceList]="tagList" [searchPlaceholder]="'Filtrar tags'" [availableText]="'Disponíveis'" [selectionText]="'Selecionadas'" item-content></list-pick>
         </ion-item>
         <button ion-button icon-start type="submit" [disabled]="!cardContent.valid">
             <ion-icon name="checkmark"></ion-icon>

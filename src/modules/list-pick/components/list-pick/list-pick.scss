@@ -1,0 +1,30 @@
+list-pick {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 8px;
+    border: 2px solid rgba(0,0,0,0.2);
+    border-radius: 10px;
+    &>div {
+        padding: 6px;
+    }
+    .info-text {
+        padding: inherit;
+    }
+    .available-elements,
+    .selected-elements {
+        display: flex;
+        align-items: center;
+    }
+    .selection-collection,
+    .available-collection {
+        // Dynamically added elements will be here, directly below above classes
+        &>* {
+            cursor: pointer;
+            margin: 3px;
+        }
+    }
+    // Monkey-patch for the clear button that used to appear below the searchbar otherwise
+    button.searchbar-clear-icon {
+        margin: 0px !important;
+    }
+}

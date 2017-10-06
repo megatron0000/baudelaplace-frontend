@@ -21,6 +21,7 @@ platforms/
 plugins/
 www/
 $RECYCLE.BIN/
+resources/
 
 .DS_Store
 Thumbs.db
