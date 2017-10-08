@@ -1,5 +1,4 @@
-import { SuccessMessage, ServerDownError } from 'baudelaplace-bridge'
-import { BauCard, BauTag } from 'baudelaplace-bridge'
+import { SuccessMessage, ServerDownError, BauCard, BauTag } from 'baudelaplace-bridge'
 import { Http } from '@angular/http'
 import { Injectable } from '@angular/core'
 
@@ -19,7 +18,10 @@ export class CardsService {
     }
 
     public getCards(): Promise<BauCard[]> {
-        return this.http.get('/bau-anki/api/cards', { withCredentials: true }).toPromise().then(response => {
+        return this.http.get(
+            '/bau-anki/api/cards?populateTags=true',
+            { withCredentials: true }
+        ).toPromise().then(response => {
             return response.json() as BauCard[]
         }).catch(error => {
             if (error.status === 0) {
@@ -43,7 +45,7 @@ export class CardsService {
     }
 
     public createCard(card: BauCard): Promise<BauCard> {
-        return this.http.post('/bau-anki/api/cards', card, { withCredentials: true })
+        return this.http.post('/bau-anki/api/cards?populateTags=true', card, { withCredentials: true })
             .toPromise().then(response => response.json() as BauCard)
             .catch(error => {
                 if (error.status === 0) {
@@ -53,6 +55,25 @@ export class CardsService {
                 }
             })
     }
+
+    public editCard(card: BauCard): Promise<BauCard> {
+        let id = card._id
+        return this.http.post('/bau-anki/api/cards/' + id + '?populateTags=true', card, {withCredentials: true})
+        .toPromise().then(response => response.json() as BauCard)
+        .catch(error => {
+            if (error.status === 0) {
+                return Promise.reject(ServerDownError)
+            } else {
+                return Promise.reject(error.json())
+            }
+        })
+    }
+
+    /**
+    public editCard(card: BauCard): Promise<BauCard> {
+        return this.http.post()
+    }
+    */
 
     public createTag(tag: BauTag): Promise<BauTag> {
         return this.http.post('/bau-anki/api/tags', tag, { withCredentials: true })

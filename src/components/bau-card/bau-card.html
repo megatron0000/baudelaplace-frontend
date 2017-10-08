@@ -6,7 +6,10 @@
             </button>
         </ion-buttons>
         <ion-buttons right>
-            <button (click)="delete()" ion-button color="danger" solid right>
+            <button (click)="modify()" ion-button color="primary" solid right [disabled]="!userOwnsQ">
+                Editar
+            </button>
+            <button (click)="delete()" ion-button color="danger" solid right [disabled]="!userOwnsQ">
                 Deletar
             </button>
         </ion-buttons>

@@ -1,6 +1,9 @@
 import { Type } from '@angular/core'
 /**
- * Data type for {@link ListPickComponent} form control
+ * Data type for `ListPickComponent` form control
+ *
+ * A `PickableItem` is associated with a component of type `T`.
+ * This component should be immutable during its lifecycle.
  */
 export interface PickableItem<T> {
     getComponent(): Type<T>

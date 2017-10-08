@@ -29,7 +29,7 @@ export class CreateTagPopover {
         if (this.tagContent.valid) {
             this._cardsServ.createTag(this.tagContent.value)
             .then(tag => this._viewCtrl.dismiss(tag))
-            .catch(error => this._alertServ.showError(error.message))
+            .catch(error => this._alertServ.showError(error))
         }
     }
 

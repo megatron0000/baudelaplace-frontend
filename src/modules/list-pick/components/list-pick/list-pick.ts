@@ -49,12 +49,12 @@ export class ListPickComponent implements ControlValueAccessor {
 
     public sourceClick(item: PickableItem<any>) {
         this.selectedList.push(item)
-        this._propagateChange(this.selectedList.map(elem => elem.retrieveData()))
+        this._propagateChange(this.selectedList)
     }
 
     public selectedClick(item: PickableItem<any>) {
         this.selectedList = this.selectedList.filter(elem => elem !== item)
-        this._propagateChange(this.selectedList.map(elem => elem.retrieveData()))
+        this._propagateChange(this.selectedList)
     }
 
     @Input() set selectionText(value: string) {

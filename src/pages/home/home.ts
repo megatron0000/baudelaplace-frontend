@@ -25,12 +25,11 @@ export class HomePage implements OnInit {
         private modalCtrl: ModalController
     ) {
         let info = this.auth.getUserInfo()
-        this.username = info.username
+        this.username = info ? info.username : ''
     }
 
     public ngOnInit() {
         this.cardsServ.getCards().then(cards => {
-            console.log(cards)
             this.cards = cards
         }).catch(error => {
             console.log(error)
@@ -38,13 +37,17 @@ export class HomePage implements OnInit {
     }
 
     public logout() {
-        this.auth.logout().subscribe(succ => {
+        this.auth.logout().then(succMessage => {
             this.nav.setRoot(LoginPage)
         })
     }
 
     public onCardDeleted(card: BauCard): void {
         this.cards = this.cards.filter(elem => elem !== card)
+    }
+
+    public onCardModified(card: BauCard): void {
+        this.cards.splice(this.cards.map(current => current._id).indexOf(card._id), 1, card)
     }
 
     public openAddCardModal() {

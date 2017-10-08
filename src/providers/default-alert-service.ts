@@ -5,12 +5,33 @@ export class DefaultAlertService {
     constructor(private _alertCtrl: AlertController) { }
 
     /**
-     * @param text If not present, defaults to `'Erro desconhecido'`
+     * Defaults to presenting a 'Erro desconhecido' message
+     *
+     * @memberof DefaultAlertService
      */
-    public showError(text: string = 'Erro desconhecido') {
+    public showError()
+    /**
+     * Logs `obj` to the console and presents its message (if not present, defaults to 'Erro desconhecido')
+     *
+     * @param {Error} obj
+     * @memberof DefaultAlertService
+     */
+    public showError(obj: Error)
+    /**
+     * Presents the error message
+     *
+     * @param {string} text
+     * @memberof DefaultAlertService
+     */
+    public showError(text: string)
+    public showError(error?: string | Error) {
+        let message = typeof error === 'string'
+            ? error
+            : error.message || 'Erro desconhecido'
+
         this._alertCtrl.create({
             title: 'Falha',
-            subTitle: text,
+            subTitle: message,
             buttons: ['OK']
         }).present()
     }

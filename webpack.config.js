@@ -21,7 +21,10 @@ module.exports = {
 
     resolve: {
         extensions: ['.ts', '.js', '.json'],
-        modules: [path.resolve('node_modules')]
+        modules: [path.resolve('node_modules')],
+        alias: {
+            'bson-objectid$': path.resolve('node_modules/baudelaplace-bridge/node_modules/bson-objectid/objectid.js')
+        }
     },
 
     module: {

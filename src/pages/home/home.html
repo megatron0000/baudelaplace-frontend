@@ -22,7 +22,7 @@
     <ion-grid>
         <ion-row class="row">
             <ion-col col-12 col-md-6 col-lg-4 align-self-stretch *ngFor="let card of cards">
-                <bau-card [cardContent]="card" (onDeleted)="onCardDeleted($event)"></bau-card>
+                <bau-card [cardContent]="card" (onDeleted)="onCardDeleted($event)" (onModified)="onCardModified($event)"></bau-card>
             </ion-col>
         </ion-row>
     </ion-grid>

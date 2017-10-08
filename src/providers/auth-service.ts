@@ -8,16 +8,40 @@ import 'rxjs/add/operator/map'
 
 @Injectable()
 export class AuthService {
-    private http: Http
     private currentUser: User
 
-    constructor(http: Http) {
-        this.http = http
-        this.currentUser = {
-            username: 'Placeholder-username',
-            admin: false,
-            _id: null
-        }
+    constructor(private http: Http) {
+        this.currentUser = null
+        this.fetchUser()
+    }
+
+    private fetchUser(): Promise<User> {
+        return new Observable((observer: Observer<User>) => {
+            this.http.get('/users/fetch', { withCredentials: true })    // Returns {} if no user has session
+                .subscribe(response => {
+                    let responseJson = response.json() as User | GeneralError
+
+                    if ((responseJson as GeneralError).name) {
+                        console.log('Received error as success. Must be corrected on backend')
+                        observer.error(responseJson)
+                        observer.complete()
+                        return
+                    }
+
+                    if ((<User>responseJson).username) {
+                        this.currentUser = responseJson as User
+                    }
+                    observer.next(responseJson as User)
+                    observer.complete()
+                }, error => {
+                    if (error.status === 0) {
+                        observer.error(ServerDownError)
+                    } else {
+                        observer.error(error.json())
+                    }
+                    observer.complete()
+                })
+        }).toPromise()
     }
 
     public login(credentials: { username: string; password: string }): Observable<User> {
@@ -88,14 +112,17 @@ export class AuthService {
         return this.currentUser
     }
 
-    /**
-     * @TODO Actually do the logout on backend
-     */
     public logout() {
-        return Observable.create(observer => {
-            this.currentUser = null
-            observer.next(true)
-            observer.complete()
+        return this.http.get('/users/logout', { withCredentials: true }).toPromise()
+            .then(() => this.currentUser = null)
+    }
+
+    public sessionExistsQ(): Promise<boolean> {
+        return this.fetchUser().then(user => {
+            if (user.username) {
+                return true
+            }
+            return false
         })
     }
 }

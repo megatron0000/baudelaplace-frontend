@@ -1,3 +1,20 @@
+# 1.2.0 (**8/10/2017**)
+
+## New features
+
+- Modification of `webpack.config.js` to access `bson-objectid` on client (needed for `ObjectId` type checking)
+- Card modification (only by user author)
+- Logout has effects on backend, and it is possible to detect whether backend has an active session for current user or not
+
+## Refactor
+
+- `ListPickComponent` control value accessor is now simmetrical: inputs and outputs only `PickableItem`s. Previously, it used to output `PickableItem#map(elem => elem.retrieveData())`
+
+## Minor changes
+
+- Home page set to Login
+- `DefaultAlertService#showError(...)` now accepts `string|Error|undefined`. In case it receives an object, it is logged to the console
+
 # 1.1.0 (6/10/2017)
 
 ## New features
