@@ -29,9 +29,11 @@ export class LoginPage implements OnInit {
     }
 
     async ngOnInit() {
-        if (await this.auth.sessionExistsQ()) {
-            this.nav.setRoot(HomePage)
-        }
+        try {
+            if (await this.auth.sessionExistsQ()) {
+                this.nav.setRoot(HomePage)
+            }
+        } catch (e) { }
     }
 
     public createAccount() {

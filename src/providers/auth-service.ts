@@ -12,10 +12,19 @@ export class AuthService {
 
     constructor(private http: Http) {
         this.currentUser = null
-        this.fetchUser()
+
+        this.fetchUser().catch(e => console.log(e))
     }
 
-    private fetchUser(): Promise<User> {
+    /**
+     * Receives a User from the server or the empty object (representing no active session).
+     * In receiving "{}" , this method returns `null`
+     *
+     * @private
+     * @returns {(Promise<User|null>)} User if there was an active session on the server. `null` otherwise
+     * @memberof AuthService
+     */
+    private fetchUser(): Promise<User | null> {
         return new Observable((observer: Observer<User>) => {
             this.http.get('/users/fetch', { withCredentials: true })    // Returns {} if no user has session
                 .subscribe(response => {
@@ -30,8 +39,11 @@ export class AuthService {
 
                     if ((<User>responseJson).username) {
                         this.currentUser = responseJson as User
+                        observer.next(this.currentUser)
+                    } else {
+                        observer.next(null)
                     }
-                    observer.next(responseJson as User)
+
                     observer.complete()
                 }, error => {
                     if (error.status === 0) {

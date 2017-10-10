@@ -1,3 +1,9 @@
+# ?? (??)
+
+## Fixes
+
+- try and catch blocks when dealing with `fetchUser()`, so that it works when server is down
+
 # 1.2.0 (**8/10/2017**)
 
 ## New features
