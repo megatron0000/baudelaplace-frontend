@@ -1,3 +1,7 @@
+# 1.3.1 (11/10/2017)
+
+- Allows newlines in cards
+
 # 1.3.0 (10/10/2017)
 
 ## Fixes

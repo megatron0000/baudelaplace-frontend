@@ -76,17 +76,14 @@ export class CreateCardModal implements OnInit {
             }
         }
 
-        /**
-         * @TODO Correct Validator pattern. It currently does not allow newlines
-         */
         this.cardContent = this.formBuilder.group({
             question: new FormControl(
                 initialContent.question,
-                [Validators.required, Validators.pattern('^\\s*[^\\s]+.*$')]
+                Validators.required
             ),
             answer: new FormControl(
                 initialContent.answer,
-                [Validators.required, Validators.pattern('^\\s*[^\\s]+.*$')]
+                Validators.required
             ),
             tags: new FormControl(initialContent.tags)    // Still empty (see above)
         })
