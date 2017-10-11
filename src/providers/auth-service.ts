@@ -6,26 +6,36 @@ import { Observable } from 'rxjs/Observable'
 import 'rxjs/add/operator/map'
 
 
+/**
+ * @TODO No need to wrap observables in Angular http calls. I can use `toPromise()` everywhere
+ *
+ * @export
+ * @class AuthService
+ */
 @Injectable()
 export class AuthService {
     private currentUser: User
 
     constructor(private http: Http) {
-        this.currentUser = null
+        this.currentUser = {
+            _id: null,
+            admin: false,
+            username: 'ERR_NOUSER'
+        }
 
         this.fetchUser().catch(e => console.log(e))
     }
 
     /**
      * Receives a User from the server or the empty object (representing no active session).
-     * In receiving "{}" , this method returns `null`
+     * In receiving "{}" , this method returns it
      *
      * @private
      * @returns {(Promise<User|null>)} User if there was an active session on the server. `null` otherwise
      * @memberof AuthService
      */
-    private fetchUser(): Promise<User | null> {
-        return new Observable((observer: Observer<User>) => {
+    private fetchUser(): Promise<User | {}> {
+        return new Observable((observer: Observer<User | {}>) => {
             this.http.get('/users/fetch', { withCredentials: true })    // Returns {} if no user has session
                 .subscribe(response => {
                     let responseJson = response.json() as User | GeneralError
@@ -39,11 +49,9 @@ export class AuthService {
 
                     if ((<User>responseJson).username) {
                         this.currentUser = responseJson as User
-                        observer.next(this.currentUser)
-                    } else {
-                        observer.next(null)
                     }
 
+                    observer.next(responseJson)
                     observer.complete()
                 }, error => {
                     if (error.status === 0) {
@@ -131,7 +139,7 @@ export class AuthService {
 
     public sessionExistsQ(): Promise<boolean> {
         return this.fetchUser().then(user => {
-            if (user.username) {
+            if ((user as User).username) {
                 return true
             }
             return false

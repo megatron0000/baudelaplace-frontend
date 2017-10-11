@@ -1,16 +1,16 @@
 <ion-card>
-    <ion-toolbar>
+    <ion-toolbar color="visible-light">
         <ion-buttons left>
-            <button ion-button solid (click)="switchAnswerVisibility()" left color="secondary">
-                {{activeAnswerButtonText}}
+            <button ion-button icon-only solid (click)="switchAnswerVisibility()" left color="secondary">
+                <ion-icon [name]="answerVisibleQ ? 'eye' : 'eye-off'"></ion-icon>
             </button>
         </ion-buttons>
         <ion-buttons right>
-            <button (click)="modify()" ion-button color="primary" solid right [disabled]="!userOwnsQ">
-                Editar
+            <button title="Modificar" (click)="modify()" ion-button icon-only color="primary" solid right [disabled]="!userOwnsQ">
+                <ion-icon name="create"></ion-icon>
             </button>
-            <button (click)="delete()" ion-button color="danger" solid right [disabled]="!userOwnsQ">
-                Deletar
+            <button title="Deletar" (click)="delete()" ion-button icon-only color="danger" solid right [disabled]="!userOwnsQ">
+                <ion-icon name="trash"></ion-icon>
             </button>
         </ion-buttons>
     </ion-toolbar>

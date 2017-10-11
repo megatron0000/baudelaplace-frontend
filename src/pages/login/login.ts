@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { RegisterCredentials } from 'baudelaplace-bridge'
 import { HomePage } from '../home/home'
 import { RegisterPage } from '../register/register'
-import { Component, OnInit } from '@angular/core'
+import { Component, AfterViewInit } from '@angular/core'
 import { NavController, LoadingController, Loading } from 'ionic-angular'
 import { AuthService } from '../../providers/auth-service'
 
@@ -11,7 +11,7 @@ import { AuthService } from '../../providers/auth-service'
     selector: 'page-login',
     templateUrl: 'login.html',
 })
-export class LoginPage implements OnInit {
+export class LoginPage implements AfterViewInit {
     loading: Loading
     registerCredentials: FormGroup
 
@@ -28,20 +28,25 @@ export class LoginPage implements OnInit {
         })
     }
 
-    async ngOnInit() {
+    async ngAfterViewInit() {
+        await this.showLoading()
         try {
             if (await this.auth.sessionExistsQ()) {
                 this.nav.setRoot(HomePage)
+            } else {
+                await this.loading.dismiss()
             }
-        } catch (e) { }
+        } catch (e) {
+            await this.loading.dismiss()
+        }
     }
 
     public createAccount() {
         this.nav.push(RegisterPage)
     }
 
-    public login() {
-        this.showLoading()
+    public async login() {
+        await this.showLoading()
         this.auth.login(this.registerCredentials.value as RegisterCredentials).subscribe(user => {
             if (user) {
                 this.nav.setRoot(HomePage)
@@ -61,12 +66,12 @@ export class LoginPage implements OnInit {
         this.registerCredentials.patchValue({ password: '' })
     }
 
-    showLoading() {
+    async showLoading() {
         this.loading = this.loadingCtrl.create({
             content: 'Por favor, espere...',
             dismissOnPageChange: true
         })
-        this.loading.present()
+        return this.loading.present()
     }
 
 }

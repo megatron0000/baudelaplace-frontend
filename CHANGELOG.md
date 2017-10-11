@@ -1,11 +1,18 @@
-# ?? (??)
+# 1.3.0 (10/10/2017)
 
 ## Fixes
 
 - try and catch blocks when dealing with `fetchUser()`, so that it works when server is down
 - Corrects application name for Android
 
-# 1.2.0 (**8/10/2017**)
+## Minor changes
+
+- Login page displays Loading while checking for existence of previous user session
+- New style color variable (visible-light)
+- `BauCardComponent` no longer has `"mostrar resposta"` texts
+- Deactivates application's side menu
+
+# 1.2.0 (8/10/2017)
 
 ## New features
 

@@ -62,9 +62,9 @@ export class CardsService {
         .toPromise().then(response => response.json() as BauCard)
         .catch(error => {
             if (error.status === 0) {
-                return Promise.reject(ServerDownError)
+                throw ServerDownError
             } else {
-                return Promise.reject(error.json())
+                throw error.json()
             }
         })
     }

@@ -17,8 +17,6 @@ export class BauCardComponent {
     @Output() onDeleted = new EventEmitter<BauCard>()
     @Output() onModified = new EventEmitter<BauCard>()
     answerVisibleQ: boolean
-    answerButtonTexts: { visible: string; hidden: string }
-    activeAnswerButtonText: string
     currentUser: User
 
     constructor(
@@ -29,19 +27,11 @@ export class BauCardComponent {
         private modalCtrl: ModalController
     ) {
         this.answerVisibleQ = false
-        this.answerButtonTexts = {
-            visible: 'Ocultar resposta',
-            hidden: 'Mostrar resposta'
-        }
-        this.activeAnswerButtonText = this.answerButtonTexts.hidden
         this.currentUser = this.authServ.getUserInfo()
     }
 
     public switchAnswerVisibility(): void {
         this.answerVisibleQ = !this.answerVisibleQ
-        this.activeAnswerButtonText = this.answerVisibleQ
-            ? this.answerButtonTexts.visible
-            : this.answerButtonTexts.hidden
     }
 
     public delete(): void {
@@ -49,6 +39,9 @@ export class BauCardComponent {
             title: 'Confirmar remoção',
             message: 'Tem certeza que quer deletar esta carta ? (Ação não pode ser desfeita)',
             buttons: [{
+                text: 'Não deletar',
+                role: 'não deletar'
+            }, {
                 text: 'Deletar',
                 role: 'deletar',
                 handler: () => {
@@ -58,9 +51,6 @@ export class BauCardComponent {
                         this.defaultAlert.showError(error)
                     })
                 }
-            }, {
-                text: 'Não deletar',
-                role: 'não deletar'
             }]
         }).present()
     }
