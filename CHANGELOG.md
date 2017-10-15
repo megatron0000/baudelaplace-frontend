@@ -1,3 +1,14 @@
+# 1.4.0 (15/10/2017)
+
+## New features
+
+- Uses third-party `AutosizeModule` (directive `Autosize`) to deploy automatic-size text areas
+- Math rendering in cards. This is done via `MathRenderComponent` and `MathRenderService` contained in `UtilsModule`
+
+## Minor changes
+
+- Fixes typescript version to exactly 2.3.4
+
 # 1.3.1 (11/10/2017)
 
 - Allows newlines in cards

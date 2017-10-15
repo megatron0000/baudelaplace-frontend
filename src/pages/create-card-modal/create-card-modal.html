@@ -17,11 +17,11 @@
     <form [formGroup]="cardContent" (ngSubmit)="sendForm()">
         <ion-item>
             <ion-label>Pergunta</ion-label>
-            <ion-textarea formControlName="question"></ion-textarea>
+            <ion-textarea autosize formControlName="question"></ion-textarea>
         </ion-item>
         <ion-item>
             <ion-label>Resposta</ion-label>
-            <ion-textarea formControlName="answer"></ion-textarea>
+            <ion-textarea autosize formControlName="answer"></ion-textarea>
         </ion-item>
         <ion-item class="separate-from-label item-input">
             <ion-label>Tags</ion-label>

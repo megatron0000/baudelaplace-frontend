@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { IonicModule } from 'ionic-angular'
 import { SearchPipe } from './pipes/search-pipe'
+import { MathRenderComponent } from './components/math-render'
+import { MathRenderService } from './providers/math-render-service'
 
 @NgModule({
     imports: [
@@ -9,10 +11,15 @@ import { SearchPipe } from './pipes/search-pipe'
         IonicModule
     ],
     declarations: [
-        SearchPipe
+        SearchPipe,
+        MathRenderComponent
     ],
     exports: [
-        SearchPipe
+        SearchPipe,
+        MathRenderComponent
+    ],
+    providers: [
+        MathRenderService
     ]
 })
 export class UtilsModule { }

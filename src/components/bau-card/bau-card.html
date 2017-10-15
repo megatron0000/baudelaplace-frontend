@@ -15,9 +15,9 @@
         </ion-buttons>
     </ion-toolbar>
     <ion-card-content>
-        <pre>{{cardContent.question}}</pre>
+        <math-render [content]="cardContent.question"></math-render>
         <div *ngIf="answerVisibleQ" class="answer">
-            <pre>{{cardContent.answer}}</pre>
+            <math-render [content]="cardContent.answer"></math-render>
         </div>
         <hr>
         Tags:

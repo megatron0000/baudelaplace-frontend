@@ -25,6 +25,7 @@ import { ListPickModule } from '../modules/list-pick/list-pick.module'
 import { UtilsModule } from '../modules/utils'
 import { InAppBrowser } from '@ionic-native/in-app-browser'
 import { PtRecaptchaFactory } from '../providers/pt-recaptcha-factory'
+import {AutosizeModule} from 'ionic2-autosize'
 
 @NgModule({
     declarations: [
@@ -46,7 +47,8 @@ import { PtRecaptchaFactory } from '../providers/pt-recaptcha-factory'
         HttpModule,
         RecaptchaModule.forRoot(),
         ListPickModule,
-        UtilsModule
+        UtilsModule,
+        AutosizeModule
     ],
     bootstrap: [IonicApp],
     entryComponents: [
